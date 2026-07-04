@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciador de Tarefas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__mark">TAREFAS</div>
+    <p class="topbar__sub">painel de ordens de serviço do dia</p>
+  </header>
+
+  <main class="board">
+
+    <section class="new-task">
+      <h2 class="section-title">Abrir nova ordem</h2>
+      <form id="task-form" class="task-form">
+        <div class="field">
+          <label for="title">Título</label>
+          <input type="text" id="title" name="title" maxlength="120" placeholder="Ex: Revisar proposta do cliente" required />
+        </div>
+        <div class="field">
+          <label for="description">Descrição</label>
+          <textarea id="description" name="description" maxlength="500" rows="2" placeholder="Detalhes da tarefa (opcional)"></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Adicionar tarefa</button>
+      </form>
+      <p id="form-error" class="form-error" hidden></p>
+    </section>
+
+    <section class="task-list-wrap">
+      <div class="list-header">
+        <h2 class="section-title">Ordens abertas</h2>
+        <div class="filters" role="group" aria-label="Filtrar por status">
+          <button class="filter-btn is-active" data-filter="todas">Todas</button>
+          <button class="filter-btn" data-filter="Pendente">Pendentes</button>
+          <button class="filter-btn" data-filter="Concluída">Concluídas</button>
+        </div>
+      </div>
+
+      <p id="empty-state" class="empty-state" hidden>
+        Nenhuma tarefa por aqui ainda. Abra a primeira ordem ao lado.
+      </p>
+
+      <p id="loading-state" class="loading-state">Carregando tarefas…</p>
+
+      <ul id="task-list" class="task-list"></ul>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
