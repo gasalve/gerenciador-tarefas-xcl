@@ -1,4 +1,4 @@
-// URL base da API do back-end.
+// url do backend - muda aqui se trocar a porta
 const API_URL = "http://localhost:8000";
 
 const form = document.getElementById("task-form");
@@ -11,23 +11,33 @@ const emptyState = document.getElementById("empty-state");
 const loadingState = document.getElementById("loading-state");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
+const confirmModal = document.getElementById("confirm-modal");
+const confirmModalMessage = document.getElementById("confirm-modal-message");
+const confirmModalCancel = document.getElementById("confirm-modal-cancel");
+const confirmModalConfirm = document.getElementById("confirm-modal-confirm");
+
+const filterLabels = {
+  todas: "Todas",
+  Pendente: "Pendentes",
+  "Concluída": "Concluídas",
+};
+
 let currentFilter = "todas";
+let allTasks = [];
 
-
-// Carregar e renderizar tarefas
 async function loadTasks() {
   loadingState.hidden = false;
   emptyState.hidden = true;
   taskList.innerHTML = "";
 
   try {
-    const query = currentFilter !== "todas" ? `?status=${encodeURIComponent(currentFilter)}` : "";
-    const response = await fetch(`${API_URL}/tasks${query}`);
+    const response = await fetch(`${API_URL}/tasks`);
 
     if (!response.ok) throw new Error("Falha ao buscar tarefas");
 
-    const tasks = await response.json();
-    renderTasks(tasks);
+    allTasks = await response.json();
+    updateFilterCounts();
+    renderCurrentFilter();
   } catch (error) {
     loadingState.hidden = true;
     taskList.innerHTML = `<p class="empty-state">Não foi possível conectar ao servidor. Verifique se o back-end está rodando em ${API_URL}.</p>`;
@@ -35,8 +45,30 @@ async function loadTasks() {
   }
 }
 
+function updateFilterCounts() {
+  const counts = {
+    todas: allTasks.length,
+    Pendente: allTasks.filter((t) => t.status === "Pendente").length,
+    "Concluída": allTasks.filter((t) => t.status === "Concluída").length,
+  };
+
+  filterButtons.forEach((btn) => {
+    const filter = btn.dataset.filter;
+    const countEl = btn.querySelector(".filter-btn__count");
+    if (countEl) countEl.textContent = `(${counts[filter]})`;
+  });
+}
+
+function renderCurrentFilter() {
+  const filtered = currentFilter === "todas"
+    ? allTasks
+    : allTasks.filter((t) => t.status === currentFilter);
+  renderTasks(filtered);
+}
+
 function renderTasks(tasks) {
   loadingState.hidden = true;
+  taskList.innerHTML = "";
 
   if (tasks.length === 0) {
     emptyState.hidden = false;
@@ -86,7 +118,28 @@ function escapeHTML(text) {
   return div.innerHTML;
 }
 
-// Criar tarefa
+// Modal de confirmação customizado, no lugar do confirm() nativo do navegador.
+// Retorna uma Promise<boolean> que resolve conforme o botão clicado.
+function askConfirmation(message) {
+  return new Promise((resolve) => {
+    confirmModalMessage.textContent = message;
+    confirmModal.hidden = false;
+
+    function cleanup(result) {
+      confirmModal.hidden = true;
+      confirmModalConfirm.removeEventListener("click", onConfirm);
+      confirmModalCancel.removeEventListener("click", onCancel);
+      resolve(result);
+    }
+
+    function onConfirm() { cleanup(true); }
+    function onCancel() { cleanup(false); }
+
+    confirmModalConfirm.addEventListener("click", onConfirm);
+    confirmModalCancel.addEventListener("click", onCancel);
+  });
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   formError.hidden = true;
@@ -121,7 +174,6 @@ function showFormError(message) {
   formError.hidden = false;
 }
 
-// Alterar status
 async function toggleStatus(id, nextStatus) {
   try {
     const response = await fetch(`${API_URL}/tasks/${id}`, {
@@ -138,9 +190,8 @@ async function toggleStatus(id, nextStatus) {
   }
 }
 
-// Excluir tarefa
 async function deleteTask(id) {
-  const confirmed = confirm("Tem certeza que deseja excluir esta tarefa?");
+  const confirmed = await askConfirmation("Tem certeza que deseja excluir esta tarefa?");
   if (!confirmed) return;
 
   try {
@@ -152,15 +203,13 @@ async function deleteTask(id) {
   }
 }
 
-// Filtros
 filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     filterButtons.forEach((b) => b.classList.remove("is-active"));
     btn.classList.add("is-active");
     currentFilter = btn.dataset.filter;
-    loadTasks();
+    renderCurrentFilter();
   });
 });
 
-// Inicialização
-loadTasks();
+loadTasks(); // carrega a lista assim que a pagina abre

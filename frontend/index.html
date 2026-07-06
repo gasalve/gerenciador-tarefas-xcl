@@ -37,9 +37,9 @@
       <div class="list-header">
         <h2 class="section-title">Ordens abertas</h2>
         <div class="filters" role="group" aria-label="Filtrar por status">
-          <button class="filter-btn is-active" data-filter="todas">Todas</button>
-          <button class="filter-btn" data-filter="Pendente">Pendentes</button>
-          <button class="filter-btn" data-filter="Concluída">Concluídas</button>
+          <button class="filter-btn is-active" data-filter="todas">Todas <span class="filter-btn__count" id="count-todas"></span></button>
+          <button class="filter-btn" data-filter="Pendente">Pendentes <span class="filter-btn__count" id="count-pendente"></span></button>
+          <button class="filter-btn" data-filter="Concluída">Concluídas <span class="filter-btn__count" id="count-concluida"></span></button>
         </div>
       </div>
 
@@ -53,6 +53,17 @@
     </section>
 
   </main>
+
+  <div id="confirm-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <span class="modal-card__id">CONFIRMAÇÃO</span>
+      <p id="confirm-modal-message" class="modal-message"></p>
+      <div class="modal-actions">
+        <button type="button" id="confirm-modal-cancel" class="modal-btn modal-btn--ghost">Cancelar</button>
+        <button type="button" id="confirm-modal-confirm" class="modal-btn modal-btn--danger">Excluir</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
