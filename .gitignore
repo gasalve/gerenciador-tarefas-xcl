@@ -6,6 +6,7 @@ venv/
 
 # Banco de dados local
 backend/tasks.db
+backend/test_tasks.db
 
 # Sistema
 .DS_Store
