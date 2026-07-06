@@ -20,6 +20,8 @@ separados.
 
 O projeto é dividido em duas partes independentes que se comunicam por
 HTTP, conforme exigido pelo desafio:
+
+```
 gerenciador-tarefas/
 ├── backend/            # API REST (FastAPI)
 │   ├── main.py         # Rotas da API
@@ -27,9 +29,10 @@ gerenciador-tarefas/
 │   ├── models.py       # Schemas de validação (Pydantic)
 │   └── requirements.txt
 └── frontend/           # Interface (HTML/CSS/JS puro)
-├── index.html
-├── style.css
-└── script.js
+    ├── index.html
+    ├── style.css
+    └── script.js
+```
 
 - O **back-end** expõe uma API REST que cuida de toda a regra de negócio
   e do armazenamento das tarefas no banco SQLite.
@@ -115,17 +118,35 @@ operacional).
   necessário liberar CORS para as chamadas `fetch()` funcionarem. Em um
   cenário de produção, isso seria restrito ao domínio real do front-end.
 
+## Testes automatizados
+
+O back-end tem testes cobrindo os 4 endpoints (criar, listar, filtrar,
+alterar status e excluir), incluindo casos de erro (título vazio, tarefa
+inexistente).
+
+Para rodar, com o ambiente virtual do back-end ativado:
+
+```bash
+cd backend
+pip install -r requirements.txt
+pytest
+```
+
+Os testes usam um banco SQLite separado (`test_tasks.db`), criado e
+apagado automaticamente a cada execução — não interferem no
+`tasks.db` usado no dia a dia.
+
 ## Diferenciais implementados
 
--  Filtro de tarefas por status (Todas / Pendentes / Concluídas)
--  Interface responsiva (funciona em telas de celular)
+- Filtro de tarefas por status (Todas / Pendentes / Concluídas)
+- Interface responsiva (funciona em telas de celular)
+- Testes automatizados com pytest cobrindo os endpoints da API
 
 ## Possíveis melhorias futuras
 
 - Adicionar edição do título/descrição de uma tarefa já criada
 - Autenticação de usuários (cada um vendo só suas próprias tarefas)
 - Deploy do back-end (ex: Render/Railway) e do front-end (ex: Vercel)
-- Testes automatizados com pytest para os endpoints da API
 - Dockerizar o projeto para facilitar a execução em qualquer máquina
 - Adicionar uma sugestão de prioridade automática usando IA a partir do
   título/descrição da tarefa
