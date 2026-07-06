@@ -20,8 +20,6 @@ separados.
 
 O projeto é dividido em duas partes independentes que se comunicam por
 HTTP, conforme exigido pelo desafio:
-
-```
 gerenciador-tarefas/
 ├── backend/            # API REST (FastAPI)
 │   ├── main.py         # Rotas da API
@@ -29,10 +27,9 @@ gerenciador-tarefas/
 │   ├── models.py       # Schemas de validação (Pydantic)
 │   └── requirements.txt
 └── frontend/           # Interface (HTML/CSS/JS puro)
-    ├── index.html
-    ├── style.css
-    └── script.js
-```
+├── index.html
+├── style.css
+└── script.js
 
 - O **back-end** expõe uma API REST que cuida de toda a regra de negócio
   e do armazenamento das tarefas no banco SQLite.
@@ -83,6 +80,18 @@ E acessar `http://localhost:5500`.
 > O back-end precisa estar rodando para o front-end funcionar, já que
 > toda a leitura/escrita de tarefas passa pela API.
 
+### Atalho opcional (Windows)
+
+Para não precisar repetir os comandos acima toda vez, incluí um script
+`iniciar.bat` na raiz do projeto. Basta dar duplo-clique nele: ele sobe
+o back-end, espera alguns segundos e sobe o front-end, abrindo o
+navegador automaticamente.
+
+Esse script é só uma conveniência para uso local no Windows — **não**
+é a forma oficial de executar o projeto (que é a documentada acima com
+`uvicorn` e `python -m http.server`, e funciona em qualquer sistema
+operacional).
+
 ## Principais decisões tomadas durante o desenvolvimento
 
 - **SQLite em vez de arquivo JSON**: optei por um banco de dados de
@@ -108,8 +117,8 @@ E acessar `http://localhost:5500`.
 
 ## Diferenciais implementados
 
-- ✅ Filtro de tarefas por status (Todas / Pendentes / Concluídas)
-- ✅ Interface responsiva (funciona em telas de celular)
+-  Filtro de tarefas por status (Todas / Pendentes / Concluídas)
+-  Interface responsiva (funciona em telas de celular)
 
 ## Possíveis melhorias futuras
 

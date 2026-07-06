@@ -1,5 +1,4 @@
 // URL base da API do back-end.
-// Se você mudar a porta do back-end, ajuste aqui também.
 const API_URL = "http://localhost:8000";
 
 const form = document.getElementById("task-form");
@@ -14,9 +13,8 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 
 let currentFilter = "todas";
 
-// ------------------------------------------------------------
+
 // Carregar e renderizar tarefas
-// ------------------------------------------------------------
 async function loadTasks() {
   loadingState.hidden = false;
   emptyState.hidden = true;
@@ -88,9 +86,7 @@ function escapeHTML(text) {
   return div.innerHTML;
 }
 
-// ------------------------------------------------------------
 // Criar tarefa
-// ------------------------------------------------------------
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   formError.hidden = true;
@@ -125,9 +121,7 @@ function showFormError(message) {
   formError.hidden = false;
 }
 
-// ------------------------------------------------------------
 // Alterar status
-// ------------------------------------------------------------
 async function toggleStatus(id, nextStatus) {
   try {
     const response = await fetch(`${API_URL}/tasks/${id}`, {
@@ -144,9 +138,7 @@ async function toggleStatus(id, nextStatus) {
   }
 }
 
-// ------------------------------------------------------------
 // Excluir tarefa
-// ------------------------------------------------------------
 async function deleteTask(id) {
   const confirmed = confirm("Tem certeza que deseja excluir esta tarefa?");
   if (!confirmed) return;
@@ -160,9 +152,7 @@ async function deleteTask(id) {
   }
 }
 
-// ------------------------------------------------------------
 // Filtros
-// ------------------------------------------------------------
 filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     filterButtons.forEach((b) => b.classList.remove("is-active"));
@@ -172,7 +162,5 @@ filterButtons.forEach((btn) => {
   });
 });
 
-// ------------------------------------------------------------
 // Inicialização
-// ------------------------------------------------------------
 loadTasks();
