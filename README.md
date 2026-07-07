@@ -1,4 +1,4 @@
-# Gerenciador de Tarefas
+# ORGANIZA+
 
 Desafio técnico do Programa de Estágio XCL. Aplicação simples para cadastrar,
 listar, concluir e excluir tarefas do dia a dia, com front-end e back-end
@@ -145,9 +145,19 @@ apagado automaticamente a cada execução — não interferem no
 
 ## Possíveis melhorias futuras
 
-- Adicionar edição do título/descrição de uma tarefa já criada
+**Experiência de uso**
+- Edição de tarefas já criadas
+- Reordenar tarefas arrastando
+- Categorias/etiquetas
+- Data de vencimento nas tarefas
+
+**Colaboração**
 - Autenticação de usuários (cada um vendo só suas próprias tarefas)
-- Deploy do back-end (ex: Render/Railway) e do front-end (ex: Vercel)
-- Dockerizar o projeto para facilitar a execução em qualquer máquina
-- Adicionar uma sugestão de prioridade automática usando IA a partir do
-  título/descrição da tarefa
+- Compartilhar tarefas entre usuários
+- Histórico de alterações
+
+**Infraestrutura**
+- Deploy em produção (ex: Render/Railway para o back-end, Vercel para o front-end)
+- Dockerizar o projeto
+- Sugestão de prioridade automática usando IA
+- App mobile
