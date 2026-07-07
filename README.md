@@ -27,12 +27,13 @@ gerenciador-tarefas/
 │   ├── main.py         # Rotas da API
 │   ├── database.py     # Conexão e criação da tabela no SQLite
 │   ├── models.py       # Schemas de validação (Pydantic)
+│   ├── test_main.py    # Testes automatizados (Pytest)
 │   └── requirements.txt
-└── frontend/           # Interface (HTML/CSS/JS puro)
-    ├── index.html
-    ├── style.css
-    └── script.js
-```
+├── frontend/            # Interface (HTML/CSS/JS puro)
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── iniciar.bat          # Atalho opcional (Windows) — sobe backend e frontend
 
 - O **back-end** expõe uma API REST que cuida de toda a regra de negócio
   e do armazenamento das tarefas no banco SQLite.
